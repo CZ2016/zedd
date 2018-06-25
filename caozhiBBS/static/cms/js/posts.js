@@ -22,7 +22,7 @@ $(function () {
                    zlalert.alertSuccessToast(message='操作成功')
                    setTimeout(function () {
                        window.location.reload();
-                   },700);
+                   },500);
 
                }else {
                    zlalert.alertInfo(data['message']);

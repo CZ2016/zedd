@@ -197,11 +197,20 @@ def comment():
 		return restful.paramserror(message=form.get_errors())
 
 
-@bp.route('/profile/')
+@bp.route('/profile/',methods=['POST','GET'])
 @LoginRequired
 def profile():
-	return render_template('front/front_profile.html')
-
+	if request.method=='GET':
+		return render_template('front/front_profile.html')
+	else:
+		user_id = request.form.get('user_id')
+		print(user_id)
+		user = FrontUser.query.get(user_id)
+		avatar=request.form.get('avatar_image_url')
+		print(avatar)
+		user.avatar=avatar
+		db.session.commit()
+		return restful.success()
 
 @bp.route('/uprofile/',methods=['POST','GET']) #完善个人信息
 @LoginRequired

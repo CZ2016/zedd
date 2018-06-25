@@ -20,7 +20,7 @@ class FrontUser(db.Model):
     _password = db.Column(db.String(1500), nullable=False)
     email=db.Column(db.String(30),unique=True)
     # realname=db.Column(db.String(50))
-    avatar=db.Column(db.String(50))
+    avatar=db.Column(db.String(100))
     # singature=db.Column(db.String(100))
     # gender=db.Column(db.Enum(GenderEnum),default=GenderEnum.UNKNOWN)
     join_time=db.Column(db.DateTime,default=datetime.now)
