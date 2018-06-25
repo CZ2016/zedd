@@ -55,7 +55,7 @@ class UserProfileModel(db.Model):
     gender=db.Column(db.String(10))
     email=db.Column(db.String(20),nullable=True)
 
-    user_id=db.Column(db.String(100),db.ForeignKey('front_user.id'))
+    user_id=db.Column(db.String(100),db.ForeignKey('front_user.id'),unique=True)
     user=db.relationship('FrontUser',backref='profile')
 
 

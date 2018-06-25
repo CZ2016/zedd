@@ -218,8 +218,13 @@ def uprofile():
 	if request.method=='GET':
 		user_id = request.args.get('user_id')
 		# print(user_id)
-		pro=UserProfileModel.query.filter_by(user_id=user_id).first()
-		print(pro.qq)
+		# pro=UserProfileModel.query.filter_by(user_id=user_id).first()
+		# user = FrontUser.query.get(user_id)
+		# p=user.profile[0]
+		# p.email='33333@qq.com'
+		# db.session.commit()
+		# print(pro.qq)
+
 		return render_template('front/front_updateprofile.html')
 	else:
 		user_id = request.form.get('user_id')
@@ -231,6 +236,7 @@ def uprofile():
 		email=request.form.get('email')
 		singature=request.form.get('singature')
 		gender=request.form.get('gender')
+		dprofile=UserProfileModel.query.filter_by(user_id=user_id).first()
 
 		profile=UserProfileModel(realname=realname,email=email,qq=qq,gender=gender,singature=singature)
 
@@ -240,9 +246,19 @@ def uprofile():
 		# user.profile.singature=singature
 		# user.profile.gender=gender
 		# user.profile.id=user_id
-		profile.user=user
-		db.session.add(profile)
-		db.session.commit()
+		try:
+			db.session.delete(dprofile)
+			db.session.commit()
+		except Exception:
+			profile.user = user
+			db.session.add(profile)
+			db.session.commit()
+		finally:
+			profile.user = user
+			db.session.add(profile)
+			db.session.commit()
+
+
 
 		# user_info=UserProfileModel(realname=realname,qq=qq,email=email,singature=singature,gender=gender)
 		# user_info.user=user
