@@ -28,6 +28,8 @@ class PostModel(db.Model):
 	title=db.Column(db.String(200),nullable=False)
 	content=db.Column(db.Text,nullable=False)
 	create_time=db.Column(db.DateTime,default=datetime.now)
+	hit=db.Column(db.Integer, default=1)
+	comment_num=db.Column(db.Integer,nullable=True,default=0)
 
 	author_id=db.Column(db.String(100),db.ForeignKey('front_user.id'),nullable=False)
 	author=db.relationship('FrontUser',backref='posts')
@@ -39,7 +41,7 @@ class PostModel(db.Model):
 class  HighPostModel(db.Model):
 	__tablename__='highlight_post'
 	id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-	post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
+	post_id=db.Column(db.Integer,db.ForeignKey('post.id',ondelete='CASCADE'))
 	create_time=db.Column(db.DateTime,default=datetime.now)
 	post=db.relationship('PostModel',backref='highlight')
 
@@ -53,7 +55,7 @@ class CommentModel(db.Model):
 	content=db.Column(db.Text,nullable=False)
 	create_time=db.Column(db.DateTime,default=datetime.now)
 
-	post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
+	post_id=db.Column(db.Integer,db.ForeignKey('post.id',ondelete='CASCADE'))
 	author_id=db.Column(db.String(100),db.ForeignKey('front_user.id'))
 
 	post=db.relationship('PostModel',backref='comments')

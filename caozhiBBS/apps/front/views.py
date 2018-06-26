@@ -8,7 +8,8 @@ from flask import (Blueprint,
                    session,
                    url_for,
                    g,
-                   abort)
+                   abort,
+                   redirect)
 
 from .forms import RegistForm,LoginForm,AddPostForm,CommentForm
 from ..front.models import FrontUser,UserProfileModel
@@ -33,7 +34,6 @@ def index():
 	board_id=request.args.get('bd',type=int,default=None)
 	banners=BannerModel.query.order_by(BannerModel.priority.desc()).limit(4)
 	page=request.args.get(get_page_parameter(),type=int,default=1)
-
 	sort=request.args.get('sort',type=int,default=1)
 	query_obj=None
 	if sort==1:
@@ -118,6 +118,13 @@ class LoginView(views.MethodView):
 			return restful.paramserror(message=form.get_errors())
 
 
+@bp.route('/logout/')
+@LoginRequired
+def logout():
+	del session[config.FRONT_USER_ID]
+	return redirect(url_for('front.index'))
+
+
 class RegistView(views.MethodView):
 	def get(self):
 		return_to=request.referrer
@@ -170,10 +177,16 @@ def apost():
 @bp.route('/p/<post_id>/')
 def pdetail(post_id):
 	post=PostModel.query.get(post_id)
+	comment_num=CommentModel.query.filter(post_id==CommentModel.post_id).count()
+	post.comment_num=comment_num
+	db.session.commit()
 	if not post:
 		abort(404)
 	else:
-		return render_template('front/front_pdetail.html',post=post)
+		post.hit=post.hit+1
+		db.session.commit()
+
+		return render_template('front/front_pdetail.html',post=post,comment_num=comment_num)
 
 
 @bp.route('/comment/',methods=['POST'])
@@ -204,10 +217,9 @@ def profile():
 		return render_template('front/front_profile.html')
 	else:
 		user_id = request.form.get('user_id')
-		print(user_id)
 		user = FrontUser.query.get(user_id)
 		avatar=request.form.get('avatar_image_url')
-		print(avatar)
+
 		user.avatar=avatar
 		db.session.commit()
 		return restful.success()
@@ -218,8 +230,11 @@ def uprofile():
 	if request.method=='GET':
 		user_id = request.args.get('user_id')
 		# print(user_id)
-		# pro=UserProfileModel.query.filter_by(user_id=user_id).first()
+		# pro=UserProfileModel.query.filter(UserProfileModel.user_id==FrontUser.id).
+		# print(pro)
+		#
 		# user = FrontUser.query.get(user_id)
+		# print(user.profile)
 		# p=user.profile[0]
 		# p.email='33333@qq.com'
 		# db.session.commit()

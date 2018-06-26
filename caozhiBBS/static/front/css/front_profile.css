@@ -66,6 +66,11 @@ body{
     margin-top: 10px;
     width: 200px;
 }
+.user-info2{
+    padding: 10px;
+    margin-top: 10px;
+    width: 400px;
+}
 
 #user_profile_btn{
     float: right;

@@ -34,3 +34,30 @@ $(function () {
 
    });
 });
+
+
+$(function () {
+    $(".delete-btn").click(function (event) {
+        event.preventDefault();
+        var self=$(this);
+        var tr=self.parent().parent();
+        var post_id=tr.attr('data-id');
+
+        zlajax.post({
+            'url':'/cms/dpost/',
+            'data':{
+                'post_id':post_id
+            },
+            'success':function (data) {
+                if(data['code']==200){
+                    zlalert.alertSuccessToast(msg='帖子删除成功');
+                    setTimeout(function () {
+                        window.location.reload()
+                    },500)
+                }else {
+                    zlalert.alertInfo(data['message'])
+                }
+            }
+        })
+    })
+});

@@ -21,8 +21,8 @@
                 <span>发布时间:{{ post.create_time }}</span>
                 <span>作者:{{ post.author.username }}</span>
                 <span>所属板块:{{ post.board.board_name }}</span>
-                <span>阅读数:</span>
-                <span>评论数:</span>
+                <span>阅读数:{{ post.hit }}</span>
+                <span>评论数:{{ comment_num }}</span>
             </p>
             <article id="post-comment" data-id="{{ post.id }}">
                 {{ post.content|safe }}

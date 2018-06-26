@@ -91,11 +91,12 @@ def test_permission():
 # 创建测试帖子命令
 @manager.command
 def create_test_post():
-     for x in range(200):
+     for x in range(20):
+          id='CUfiSDDiSPYNUAPsHRN4v8'
           title='标题%s'%x
           content='内容:%s'%x
-          board=BoardModel.query.get(11)
-          author=FrontUser.query.first()
+          board=BoardModel.query.get(10)
+          author=FrontUser.query.get(id)
           print(author)
           post=PostModel(title=title,content=content)
           post.board=board

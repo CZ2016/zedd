@@ -170,6 +170,17 @@ def unhighp():
             return restful.success()
 
 
+# 删除帖子
+@bp.route('/dpost/',methods=['POST'])
+@LoginRequired
+def dpost():
+    post_id=request.form.get('post_id')
+    post=PostModel.query.get(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    return restful.success()
+
+
 
 @bp.route('/comments/')
 @LoginRequired
