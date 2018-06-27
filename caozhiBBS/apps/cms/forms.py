@@ -1,5 +1,4 @@
 #encoding:utf-8
-
 from wtforms import StringField,IntegerField
 from ..forms import BaseForm
 from wtforms.validators import Email,InputRequired,Length,EqualTo

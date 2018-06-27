@@ -20,7 +20,7 @@ from exts import db
 from flask_paginate import Pagination,get_page_parameter #分页API
 from sqlalchemy.sql import func
 import config
-
+from utils.aliyunSDK import alidayu
 
 # from exts import alidayu
 
@@ -86,7 +86,7 @@ def index():
 # 验证接口
 # @bp.route('/sms_captcha/')
 # def sms_captcha():
-#     result=Send_sms.send_sms('17606863093',text='GGG444')
+#     result=alidayu.send_sms('17606863093',code='GGG444')
 #     if result:
 #         return '发送成功'
 #     else:
@@ -146,7 +146,7 @@ class RegistView(views.MethodView):
 
 		else:
 			print(form.get_errors())
-			return restful.paramserror()
+			return restful.paramserror(message='请输入完整数据')
 
 @bp.route('/apost/',methods=['GET','POST'])
 @LoginRequired
@@ -230,11 +230,22 @@ def uprofile():
 	if request.method=='GET':
 		user_id = request.args.get('user_id')
 		# print(user_id)
-		# pro=UserProfileModel.query.filter(UserProfileModel.user_id==FrontUser.id).
+
+		# 正向查询<>
+		# pro=UserProfileModel.query.filter(UserProfileModel.user_id==FrontUser.id).first()
+		# print(pro.user)
+
+		# 使用get获取none
+		# pro=UserProfileModel.query.get(user_id)
 		# print(pro)
-		#
+
+
+
+		# 反向查询[]
 		# user = FrontUser.query.get(user_id)
+		# print(user)
 		# print(user.profile)
+
 		# p=user.profile[0]
 		# p.email='33333@qq.com'
 		# db.session.commit()

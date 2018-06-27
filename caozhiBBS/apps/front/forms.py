@@ -3,6 +3,7 @@ from ..forms import BaseForm
 from wtforms import StringField,IntegerField
 from wtforms.validators import EqualTo,Regexp,ValidationError,Length,InputRequired
 from utils import zlache
+from .models import FrontUser
 
 class RegistForm(BaseForm):
 	telephone=StringField(validators=[Regexp(r"1[345789]\d{9}",message='请输入正确格式手机号')])
@@ -24,6 +25,18 @@ class RegistForm(BaseForm):
 		graph_captcha_mem=zlache.get(graph_captcha.lower())
 		if not graph_captcha_mem:
 			raise ValidationError(message='图形验证码错误')
+
+
+	def validate_username(self,field):
+		username=field.data
+		have_username=FrontUser.query.filter_by(username=username).first()
+		if have_username:
+			raise ValidationError(message='用户名已经存在')
+
+
+
+
+
 
 class LoginForm(BaseForm):
 	telephone = StringField(validators=[Regexp(r"1[345789]\d{9}", message='请输入正确格式手机号')])

@@ -16,8 +16,8 @@ def before_request():
 			g.front_profile=user_profile
 
 
-@bp.errorhandler
-def page_not_found():
+@bp.app_errorhandler(404)
+def page_not_found(e):
 	return render_template('front/front_404.html'),404
 
 

@@ -4,7 +4,7 @@ import config
 from flask_mail import Message
 from exts import mail
 from flask import Flask
-from utils.Send_sms import send_sms
+from utils.aliyunSDK import alidayu
 
 app=Flask(__name__)
 app.config.from_object(config)
@@ -42,5 +42,5 @@ def send_mail(subject,recipients,body):
 #终端命令:celery -A tasks.celery worker --loglevel=info;
 @celery.task
 def send_sms_captcha(telephone,captcha):
-	send_sms(phone=telephone,text=captcha)
+	alidayu.send_sms(telephone,code=captcha)
 	print('发送验证码成功')

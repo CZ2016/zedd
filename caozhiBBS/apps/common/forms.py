@@ -3,6 +3,7 @@ from apps.forms import BaseForm
 from wtforms import StringField
 from wtforms.validators import regexp,InputRequired
 import hashlib
+
 class SMSCaptchaForm(BaseForm):
     telephone = StringField(validators=[regexp(r'1[34578]\d{9}')])
     timestamp = StringField(validators=[regexp(r'\d{13}')])
