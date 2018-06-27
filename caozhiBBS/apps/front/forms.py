@@ -26,6 +26,11 @@ class RegistForm(BaseForm):
 		if not graph_captcha_mem:
 			raise ValidationError(message='图形验证码错误')
 
+	def validate_telephone(self,field):
+		telephone=field.data
+		have_telephone=FrontUser.query.filter_by(telephone=telephone).first()
+		if have_telephone:
+			raise ValidationError(message='该手机号已被注册')
 
 	def validate_username(self,field):
 		username=field.data

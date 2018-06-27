@@ -12,7 +12,7 @@ from flask import (Blueprint,
                    redirect)
 
 from .forms import RegistForm,LoginForm,AddPostForm,CommentForm
-from ..front.models import FrontUser,UserProfileModel
+from ..front.models import FrontUser
 from ..models import BannerModel,BoardModel,PostModel,CommentModel,HighPostModel
 from .decorators import LoginRequired
 from utils import restful,safeutils
@@ -145,9 +145,10 @@ class RegistView(views.MethodView):
 			return restful.success()
 
 		else:
-			print(form.get_errors())
-			return restful.paramserror(message='请输入完整数据')
-
+			# print(form.get_errors())
+			# message=form.get_errors()
+			# print(message)
+			return restful.paramserror(form.get_errors())
 @bp.route('/apost/',methods=['GET','POST'])
 @LoginRequired
 def apost():
@@ -229,70 +230,31 @@ def profile():
 def uprofile():
 	if request.method=='GET':
 		user_id = request.args.get('user_id')
-		# print(user_id)
-
-		# 正向查询<>
-		# pro=UserProfileModel.query.filter(UserProfileModel.user_id==FrontUser.id).first()
-		# print(pro.user)
-
-		# 使用get获取none
-		# pro=UserProfileModel.query.get(user_id)
-		# print(pro)
-
-
-
-		# 反向查询[]
-		# user = FrontUser.query.get(user_id)
-		# print(user)
-		# print(user.profile)
-
-		# p=user.profile[0]
-		# p.email='33333@qq.com'
-		# db.session.commit()
-		# print(pro.qq)
-
 		return render_template('front/front_updateprofile.html')
 	else:
 		user_id = request.form.get('user_id')
 		user = FrontUser.query.get(user_id)
-
 		realname=request.form.get('realname')
-
 		qq=request.form.get('qq')
 		email=request.form.get('email')
 		singature=request.form.get('singature')
 		gender=request.form.get('gender')
-		dprofile=UserProfileModel.query.filter_by(user_id=user_id).first()
 
-		profile=UserProfileModel(realname=realname,email=email,qq=qq,gender=gender,singature=singature)
-
-		# user.profile.qq=qq
-		# user.profile.realname=realname
-		# user.profile.email=email
-		# user.profile.singature=singature
-		# user.profile.gender=gender
-		# user.profile.id=user_id
-		try:
-			db.session.delete(dprofile)
-			db.session.commit()
-		except Exception:
-			profile.user = user
-			db.session.add(profile)
-			db.session.commit()
-		finally:
-			profile.user = user
-			db.session.add(profile)
-			db.session.commit()
-
-
-
-		# user_info=UserProfileModel(realname=realname,qq=qq,email=email,singature=singature,gender=gender)
-		# user_info.user=user
-		# db.session.add(user_info)
-		# db.session.commit()
+		user.realname=realname
+		user.qq=qq
+		user.email=email
+		user.singature=singature
+		user.gender=gender
+		db.session.commit()
 		return restful.success()
 
-
+@bp.route('/profile1/<username>')
+def profile1(username):
+	user=FrontUser.query.filter_by(username=username).first()
+	if user:
+		return render_template('front/front_profile1.html',user=user)
+	else:
+		return restful.paramserror(message='没有该用户')
 
 
 

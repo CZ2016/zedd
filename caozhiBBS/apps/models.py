@@ -31,7 +31,7 @@ class PostModel(db.Model):
 	hit=db.Column(db.Integer, default=1)
 	comment_num=db.Column(db.Integer,nullable=True,default=0)
 
-	author_id=db.Column(db.String(100),db.ForeignKey('front_user.id'),nullable=False)
+	author_id=db.Column(db.String(100),db.ForeignKey('front_user.id',ondelete='CASCADE'),nullable=False)
 	author=db.relationship('FrontUser',backref='posts')
 
 	board_id=db.Column(db.Integer,db.ForeignKey('board.id'))
@@ -56,7 +56,7 @@ class CommentModel(db.Model):
 	create_time=db.Column(db.DateTime,default=datetime.now)
 
 	post_id=db.Column(db.Integer,db.ForeignKey('post.id',ondelete='CASCADE'))
-	author_id=db.Column(db.String(100),db.ForeignKey('front_user.id'))
+	author_id=db.Column(db.String(100),db.ForeignKey('front_user.id',ondelete='CASCADE'))
 
 	post=db.relationship('PostModel',backref='comments')
 	author=db.relationship('FrontUser',backref='comments')

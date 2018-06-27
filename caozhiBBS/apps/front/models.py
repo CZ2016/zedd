@@ -19,10 +19,10 @@ class FrontUser(db.Model):
     username=db.Column(db.String(100),nullable=False)
     _password = db.Column(db.String(1500), nullable=False)
     email=db.Column(db.String(30),unique=True)
-    # realname=db.Column(db.String(50))
+    realname=db.Column(db.String(50))
     avatar=db.Column(db.String(100))
-    # singature=db.Column(db.String(100))
-    # gender=db.Column(db.Enum(GenderEnum),default=GenderEnum.UNKNOWN)
+    singature=db.Column(db.String(100))
+    gender = db.Column(db.String(10))
     join_time=db.Column(db.DateTime,default=datetime.now)
 
 
@@ -45,18 +45,18 @@ class FrontUser(db.Model):
     def check_password(self,rawpwd):
         return check_password_hash(self._password,rawpwd)
 
-
-class UserProfileModel(db.Model):
-    __tablename__='userprofile'
-    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    realname = db.Column(db.String(50),nullable=True)
-    qq=db.Column(db.String(20),nullable=True)
-    singature = db.Column(db.String(100))
-    gender=db.Column(db.String(10))
-    email=db.Column(db.String(20),nullable=True)
-
-    user_id=db.Column(db.String(100),db.ForeignKey('front_user.id',ondelete='CASCADE'),unique=True)
-    user=db.relationship('FrontUser',backref='profile',uselist=False)
+#
+# class UserProfileModel(db.Model):
+#     __tablename__='userprofile'
+#     id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+#     realname = db.Column(db.String(50),nullable=True)
+#     qq=db.Column(db.String(20),nullable=True)
+#     singature = db.Column(db.String(100))
+#     gender=db.Column(db.String(10))
+#     email=db.Column(db.String(20),nullable=True)
+#
+#     user_id=db.Column(db.String(100),db.ForeignKey('front_user.id',ondelete='CASCADE'),unique=True)
+#     user=db.relationship('FrontUser',backref='profile',uselist=False)
 
 
 
