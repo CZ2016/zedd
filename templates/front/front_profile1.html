@@ -1,0 +1,113 @@
+{% extends 'front/front_base.html' %}
+
+{% block title %}
+    用户资料
+{% endblock %}
+
+{% block head %}
+{#     <script src="https://cdn.staticfile.org/Plupload/2.1.1/moxie.js"></script>#}
+{#    <script src="https://cdn.staticfile.org/Plupload/2.1.1/plupload.dev.js"></script>#}
+{#    <script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.js"></script>#}
+{#    <script src="{{ static('common/js/zlqiniu.js') }}"></script>#}
+
+{#    <script  src="{{ static('front/js/front_update_profile.js') }}"></script>#}
+    <link rel="stylesheet" href="{{ static('front/css/front_profile.css') }}">
+    <script src="{{ static('front/js/front_follow.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    {% set current_user=g.front_user %}
+    <div class="profile-head">
+        <div class="user-avatar">
+            <img src="{{user.avatar or url_for('static',filename='common/images/logo.png')}}" alt="">
+        </div>
+        <div class="user-head">
+            <h3>{{ user.username }}</h3>
+            <span>积分:0</span>
+            <span>个性签名:{{ user.singature or '这个人很懒，木有个性签名'}}</span>
+            <div class="follow-group">
+                {% if current_user.id !=user.id and not current_user.is_following(user)  %}
+                     <button class="btn btn-primary"id="focus-btn" data-id="{{ user.id }}">关注TA</button>
+                {% endif %}
+                {% if current_user.is_following(user) %}
+                    <button class="btn btn-danger"id="unfocus-btn"data-id="{{ user.id }}">取消关注</button>
+                {% endif %}
+
+                <div class="fans-number">粉丝数：{{ follower }}</div>
+                <div class="following-people">TA关注的人：{{ followed }}</div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="userinfo-post">
+        <div>
+            <h3>个人资料</h3>
+        </div>
+         <div class="list-group">
+             {% if current_sort==1 %}
+              <a href="{{ url_for('front.profile1',sort=1,username=user.username) }}" class="list-group-item active">{{
+                      user.username }}的资料</a>
+             {% else %}
+              <a href="{{ url_for('front.profile1',sort=1,username=user.username) }}" class="list-group-item">{{ user
+              .username }}的资料</a>
+             {% endif %}
+
+             {% if current_sort==2 %}
+              <a href="{{ url_for('front.profile1',sort=2,username=user.username,user_id=user.id) }}"
+                 class="list-group-item
+              active">{{
+                      user.username }}发表的帖子</a>
+             {% else %}
+              <a href="{{ url_for('front.profile1',sort=2,username=user.username,user_id=user.id) }}" class="list-group-item">{{ user
+              .username }}发表的帖子</a>
+             {% endif %}
+        </div>
+    </div>
+    {% if current_sort==1 %}
+        <div class="user-detail">
+        <div class="user-info-detai"><h3>资料</h3></div>
+        <div class="user-info1">用户名:{{ user.username or '未填写'}}</div>
+        <div class="user-info1">手机号:{{ user.telephone or '未填写'}}</div>
+        <div class="user-info1">邮箱:{{ user.email or '未填写'}}</div>
+        <div class="user-info1">QQ号:{{ user.qq or '未填写' }}</div>
+        <div class="user-info1">真实姓名:{{ user.realname or '未填写'}}</div>
+        <div class="user-info1">性别:{{ user.gender or '未填写'}}</div>
+        <div class="user-info2">个性签名:{{user.singature or '未填写'}}</div>
+        <div class="user-info-detai"><h3>活跃概括</h3></div>
+        <div class="user-info1">发帖数目:0</div>
+        <div class="user-info1">评论数目:0</div>
+    </div>
+    {% endif %}
+ {% if current_sort==2 %}
+        <div class="user-detail">
+        <div class="user-info-detai"><h3>发表过的帖子</h3></div>
+             <ul class="post-list-group">
+                {% for post in posts %}
+                <li>
+                    <div class="author-avatar-group">
+                        <img src="{{ post.author.avatar or url_for('static',filename='common/images/logo.png') }}"
+                             alt="">
+                    </div>
+                    <div class="post-info-group">
+                        <p class="post-title"><a href="{{ url_for('front.pdetail',post_id=post.id) }}">{{ post.title
+                                }}</a>
+                                {% if post.highlight %}
+                                    <span class="label label-danger">精华帖</span>
+                                {% endif %}
+                        </p>
+                        <p class="post-info">
+                            <span>发表时间:{{ post.create_time  }}</span>
+                            <span>评论数:{{ post.comment_num }}</span>
+                            <span>阅读数:{{ post.hit}} </span>
+                        </p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+{#            <div style="text-align: center">#}
+{#                {{ pagination.links }}#}
+{#            </div>#}
+        </div>
+    {% endif %}
+{% endblock %}

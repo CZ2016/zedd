@@ -1,0 +1,131 @@
+{% extends 'front/front_base.html' %}
+
+{% block title %}
+    个人中心界面
+{% endblock %}
+
+{% block head %}
+     <script src="https://cdn.staticfile.org/Plupload/2.1.1/moxie.js"></script>
+    <script src="https://cdn.staticfile.org/Plupload/2.1.1/plupload.dev.js"></script>
+    <script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.js"></script>
+    <script src="{{ static('common/js/zlqiniu.js') }}"></script>
+
+    <script  src="{{ static('front/js/front_update_profile.js') }}"></script>
+    <link rel="stylesheet" href="{{ static('front/css/front_profile.css') }}">
+{% endblock %}
+
+{% block body %}
+  {% set user_id=g.front_user.id %}
+    <div class="profile-head">
+        <div class="user-avatar">
+            <a href="#" title="点击更换头像" id="change-avatar"><img src="{{g.front_user.avatar or
+            url_for('static',filename='common/images/logo.png')}}" alt="">
+            </a>
+        </div>
+        <div class="user-head">
+            <h3>{{ g.front_user.username }}</h3>
+            <span>积分:0</span>
+            <span>个性签名:风一样的男子</span>
+            <div class="follow-group">
+            <div class="fans-number">我的粉丝数：{{follower}}</div>
+            <div class="following-people">我关注的人：{{ followed }}</div>
+        </div>
+        </div>
+
+    </div>
+    <div class="userinfo-post">
+        <div>
+            <h3>个人资料</h3>
+        </div>
+         <div class="list-group">
+             {% if current_sort==1 %}
+              <a href="{{ url_for('front.profile',sort=1) }}" class="list-group-item active">资料</a>
+             {% else %}
+              <a href="{{ url_for('front.profile',sort=1) }}" class="list-group-item">资料</a>
+             {% endif %}
+             {% if current_sort ==2%}
+                 <a href="{{ url_for('front.profile',sort=2) }}" class="list-group-item
+                 active">发表的帖子</a>
+             {% else %}
+                 <a href="{{ url_for('front.profile',sort=2) }}" class="list-group-item">发表的帖子</a>
+             {% endif %}
+
+             <a href="{{ url_for('front.uprofile') }}"><button type="button" class="btn btn-info
+             btn-xs"id="user_profile_btn">完善个人资料</button></a>
+        </div>
+    </div>
+    {% if current_sort==1 %}
+        <div class="user-detail">
+        <div class="user-info-detai"><h3>资料</h3></div>
+        <div class="user-info1">用户名:{{ g.front_user.username or '未填写'}}</div>
+        <div class="user-info1">手机号:{{ g.front_user.telephone or '未填写'}}</div>
+        <div class="user-info1">邮箱:{{ g.front_user.email or '未填写'}}</div>
+        <div class="user-info1">QQ号:{{ g.front_user.qq or '未填写' }}</div>
+        <div class="user-info1">真实姓名:{{ g.front_user.realname or '未填写'}}</div>
+        <div class="user-info1">性别:{{ g.front_user.gender or '未填写'}}</div>
+        <div class="user-info2">个性签名:{{g.front_user.singature or '这个人很懒，木有个性签名'}}</div>
+        <div class="user-info-detai"><h3>活跃概括</h3></div>
+        <div class="user-info1">发帖数目:0</div>
+        <div class="user-info1">评论数目:0</div>
+    </div>
+    {% endif %}
+    {% if current_sort==2 %}
+        <div class="user-detail">
+        <div class="user-info-detai"><h3>发表过的帖子</h3></div>
+             <ul class="post-list-group">
+                {% for post in posts %}
+                <li>
+                    <div class="author-avatar-group">
+                        <img src="{{ post.author.avatar or url_for('static',filename='common/images/logo.png') }}"
+                             alt="">
+                    </div>
+                    <div class="post-info-group">
+                        <p class="post-title"><a href="{{ url_for('front.pdetail',post_id=post.id) }}">{{ post.title
+                                }}</a>
+                                {% if post.highlight %}
+                                    <span class="label label-danger">精华帖</span>
+                                {% endif %}
+                        </p>
+                        <p class="post-info">
+                            <span>发表时间:{{ post.create_time  }}</span>
+                            <span>评论数:{{ post.comment_num }}</span>
+                            <span>阅读数:{{ post.hit}} </span>
+                        </p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <div style="text-align: center">
+                {{ pagination.links }}
+            </div>
+        </div>
+    {% endif %}
+    <!--更换头像-->
+<div class="modal fade" id="avatar-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">更换头像</h4>
+          </div>
+          <div class="modal-body">
+              <form action="" class="form-horizontal">
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label">头像图片:</label>
+                      <div class="col-sm-7">
+                          <input type="text"class="form-control"name="avatar_image_url" placeholder="添加图片或者图片地址">
+                      </div>
+                      <button class="btn btn-info col-sm-2"id="change-avatar-btn">添加图片</button>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" id="save-avatar-btn"data-id="{{ g.front_user.id
+                    }}">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

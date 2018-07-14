@@ -1,0 +1,58 @@
+{% extends 'front/front_base.html' %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+
+{% block head %}
+    <script src="{{ static('ueditor/ueditor.config.js') }}"></script>
+    <script src="{{ static('ueditor/ueditor.all.min.js') }}"></script>
+    <script src="{{ static('front/js/front_pdetail.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ static('front/css/front_pdetail.css') }}">
+
+{% endblock %}
+
+{% block body %}
+    <div class="lg-container">
+        <div class="post-container">
+            <h1>{{ post.title }}</h1>
+            <p class="post-info-group">
+                <span>发布时间:{{ post.create_time }}</span>
+                <span>作者:{{ post.author.username }}</span>
+                <span>所属板块:{{ post.board.board_name }}</span>
+                <span>阅读数:{{ post.hit }}</span>
+                <span>评论数:{{ comment_num }}</span>
+            </p>
+            <article id="post-comment" data-id="{{ post.id }}">
+                {{ post.content|safe }}
+            </article>
+        </div>
+        <div>
+            <ul class="comment-group">
+                <h3>评论列表</h3>
+               {% for comment in post.comments %}
+                   <li>
+                        <div class="avatar-group">
+                            <img src="{{ comment.author.avatar or static('common/images/logo.png') }}" alt="">
+                        </div>
+                        <div class="comment-content">
+                            <p class="author-info">
+                                <span>{{ comment.author.username }}</span>
+                                <span>{{ comment.create_time }}</span>
+                            </p>
+                            <p class="comment-txt">{{ comment.content|safe }}</p>
+                        </div>
+                   </li>
+               {% endfor %}
+            </ul>
+        </div>
+        <div class="add-comment-group">
+            <h4>发表评论</h4>
+            <script id="editor"type="text/plain"style="height:200px"></script>
+        </div>
+        <div class="submit-btn">
+            <button class="btn btn-primary"id="comment-btn">发表评论</button>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'front/front_base.html' %}
+{#{% from 'common/_macros.html' import static %}#}
+
+{% block head %}
+    <script src="{{ static('front/js/front_changepwd.js') }}"></script>
+    <link rel="stylesheet" href="{{ static('front/css/front_signbase.css') }}">
+{% endblock %}
+
+{% block title %}
+    修改密码
+{% endblock %}
+
+{% block body %}
+     <div class="outer-box">
+        <div class="logo-box">
+            <a href="/">
+                <img src="{{ g.front_user.avatar or url_for('static',filename='common/images/logo.png')}}" alt="">
+            </a>
+        </div>
+        <h2 class="page-title">修改个人密码</h2>
+        <div class="form-box">
+        <span style="display: none" id="changepwd_return_to_span">{{ return_to }}</span>
+    <div class="form-group">
+         <input type="password" class="form-control"name="oldpassword"placeholder="原始密码">
+     </div>
+    <div class="form-group">
+        <input type="password" class="form-control"name="newpwd"placeholder="新密码">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control"name="confirmpwd"placeholder="确认密码">
+    </div>
+    <div class="form-group">
+        <button id="changepwd-btn" class="btn btn-warning"style="width:100%" >立即修改</button>
+    </div>
+        </div>
+
+{% endblock %}
