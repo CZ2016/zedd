@@ -1,0 +1,11 @@
+
+.top-box button{
+    float: right;
+        }
+
+
+
+
+table{
+    table-layout: fixed;word-break: break-all; word-wrap: break-word; //表格固定布局
+    }

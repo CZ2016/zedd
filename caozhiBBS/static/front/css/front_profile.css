@@ -1,0 +1,79 @@
+body{
+    background:#fcf8e3;
+    overflow-y: scroll;
+}
+
+.user-avatar{
+    width: 90px;
+    height: 90px;
+    border: 1px solid lime;
+    border-radius: 50%;
+    margin-right: 10px;
+    float: left;
+    margin-left: 180px;
+    margin-top: 40px;
+    overflow: hidden;
+}
+.user-avatar img{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-head{
+    float: left;
+    margin-left: 60px;
+    margin-top: 40px;
+}
+
+.user-head h3{
+    margin-top: 0px;
+}
+
+.user-head span{
+    display: block;
+    margin-top: 10px;
+}
+
+.userinfo-post{
+    width: 170px;
+    float: left;
+    margin-top:50px;
+    clear: both;
+
+}
+.userinfo-post h3{
+   text-align: center;
+}
+
+.user-detail{
+    width: 730px;
+    background:#ffffff;
+    float: left;
+    margin-left: 15px;
+    margin-top: 70px;
+    padding: 15px;
+}
+
+.user-info-detai{
+    border-bottom: 1px solid #e6e6e6;
+    height: 30px;
+
+}
+.user-info1{
+    padding: 10px;
+    margin-top: 10px;
+    width: 200px;
+}
+.user-info2{
+    padding: 10px;
+    margin-top: 10px;
+    width: 400px;
+}
+
+#user_profile_btn{
+    float: right;
+    margin-top: 10px;
+}
+
