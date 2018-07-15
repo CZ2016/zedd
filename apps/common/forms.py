@@ -19,8 +19,6 @@ class SMSCaptchaForm(BaseForm):
          # md5(timestamp+telephone+salt)
          # md5必须要传一个bytes类型的字符串进去
         sign2=hashlib.md5((timestamp+telephone+self.salt).encode('utf-8')).hexdigest()
-        print('客户端提交的sign', sign)
-        print('服务器端生成的sign', sign2)
         if sign==sign2:
             return True
         else:

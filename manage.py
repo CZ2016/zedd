@@ -5,7 +5,7 @@ from flask_migrate import MigrateCommand,Migrate
 from exts import db
 from apps.cms import models as cms_models
 from apps.front import models as front_models
-from bbs import create_app
+from czbbs import create_app
 from apps.models import BannerModel,BoardModel,PostModel
 
 app=create_app()
