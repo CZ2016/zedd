@@ -18,7 +18,7 @@ var zlqiniu = {
             multi_selection: false,
             filters: {
                 mime_types :[
-                    {title:'Image files',extensions: 'jpg,gif,png'},
+                    {title:'Image files',extensions: 'jpg,gif,png,jpeg'},
                     {title:'Video files',extensions: 'flv,mpg,mpeg,avi,wmv,mov,asf,rm,rmvb,mkv,m4v,mp4'}
                 ]
             },
