@@ -1,4 +1,4 @@
-alembic==0.9.9
+alembic==0.9.10
 aliyun-python-sdk-core-v3==2.8.9
 aliyun-python-sdk-dysmsapi==1.0.0
 amqp==2.3.2
@@ -11,7 +11,7 @@ chardet==3.0.4
 click==6.7
 dominate==2.3.1
 Flask==0.12.2
-Flask-Bootstrap==3.3.7.1
+Flask-Alembic==2.0.1
 Flask-Celery==2.4.3
 Flask-Mail==0.9.1
 Flask-Migrate==2.1.1
@@ -27,11 +27,11 @@ Jinja2==2.10
 kombu==4.2.1
 Mako==1.0.7
 MarkupSafe==1.0
-Pillow==5.1.0
-pkg-resources=sa=0.0.0
+Pillow==5.2.0
+pkg-resources==0.0.0
 pycryptodome==3.6.3
 PyMySQL==0.8.0
-python-dateutil==2.7.2
+python-dateutil==2.7.3
 python-editor==1.0.3
 python-memcached==1.59
 pytz==2018.4
@@ -40,7 +40,7 @@ redis==2.10.6
 requests==2.18.4
 shortuuid==0.5.0
 six==1.11.0
-SQLAlchemy==1.2.6
+SQLAlchemy==1.2.9
 urllib3==1.22
 vine==1.1.4
 visitor==0.1.3
